@@ -14,7 +14,7 @@ const app = express();
 
 // ✅ Proper CORS for cookies
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://stay-finder-pi.vercel.app/",
   credentials: true
 }));
 
