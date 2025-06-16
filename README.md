@@ -16,25 +16,6 @@ A simple full-stack Airbnb-like app built with **React**, **Node.js**, **Express
 
 ---
 
-## 📂 Project Structure
-
-```
-mern-airbnb-clone/
-├── backend/           # Express + MongoDB API
-│   ├── models/        # Mongoose models (User, Listing, Booking)
-│   ├── routes/        # Auth, Listings, Bookings API routes
-│   ├── controllers/   # Controllers for each resource
-│   ├── server.js      # Express server entry point
-│   └── .env           # Environment variables
-└── frontend/          # React SPA
-    ├── src/
-    │   ├── pages/     # Dashboard, Listings, ListingDetails, Login, Register
-    │   ├── services/  # Axios API wrapper
-    │   └── App.jsx    # Main router
-```
-
----
-
 ## ⚙️ Setup & Run
 
 ### 1️⃣ Clone the repo
