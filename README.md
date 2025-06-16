@@ -1,5 +1,5 @@
 
-# 🏡 MERN Airbnb Clone
+# 🏡 Stay Finder
 
 A simple full-stack Airbnb-like app built with **React**, **Node.js**, **Express**, and **MongoDB**.
 
@@ -105,18 +105,6 @@ npm run dev
 - **Frontend:** React, React Router, Axios
 - **Backend:** Node.js, Express, MongoDB, Mongoose, JWT
 - **Other:** bcrypt, dotenv
-
----
-
-## 📜 License
-
-MIT License. Use and modify freely.
-
----
-
-## ✨ Author
-
-Built with ❤️ by [YOUR NAME]
 
 ---
 
