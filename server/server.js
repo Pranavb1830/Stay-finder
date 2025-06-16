@@ -12,11 +12,14 @@ const bookingRoutes = require('./routes/bookingRoutes');
 
 const app = express();
 
-// ✅ Proper CORS for cookies
 app.use(cors({
-  origin: "https://stay-finder-pi.vercel.app/",
+  origin: [
+    "http://localhost:5173",
+    "https://stay-finder-biifwz5a0-pranavb1830s-projects.vercel.app"
+  ],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
