@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react"; // ✅ Import useEffect
+
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ListingDetails from "./pages/ListingDetails";
@@ -8,6 +10,10 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+  useEffect(() => {
+    document.title = "Stay Finder";
+  }, []);
+
   return (
     <Router>
       <Navbar />
