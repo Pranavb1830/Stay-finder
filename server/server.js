@@ -14,11 +14,13 @@ const app = express();
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "https://stay-finder-biifwz5a0-pranavb1830s-projects.vercel.app"
+    "https://stay-finder-biifwz5a0-pranavb1830s-projects.vercel.app",
+    "https://stay-finder-pi.vercel.app",
+    "http://localhost:5173"
   ],
   credentials: true
 }));
+
 
 
 app.use(express.json());
