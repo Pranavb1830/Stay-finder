@@ -45,11 +45,16 @@ const ListingDetails = () => {
         checkIn: checkInDate,
         checkOut: checkOutDate,
         guests: guests,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
       alert("Booking successful!");
     } catch (err) {
       console.error("Booking error:", err);
-      alert("Booking failed! Please ensure you're logged in and try again.");
+      alert(err.response?.data?.message || "Booking failed! Please check your dates and try again.");
     }
   };
 
