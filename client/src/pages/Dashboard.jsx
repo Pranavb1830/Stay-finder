@@ -1,79 +1,92 @@
-const Listing = require('../models/Listing');
+import { useState } from "react";
+import API from "../services/api";
 
-exports.getAllListings = async (req, res) => {
-  try {
-    const { location, minPrice, maxPrice } = req.query;
+const Dashboard = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    location: "",
+    pricePerNight: "",
+    imageUrl: "",
+  });
 
-    let filter = {};
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const payload = {
+        title: formData.title,
+        location: formData.location,
+        price: Number(formData.pricePerNight),
+        description: formData.description,
+        images: [formData.imageUrl],
+      };
 
-    if (location) {
-      filter.location = { $regex: location, $options: 'i' }; // case-insensitive match
+      await API.post("/listings", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Listing created!");
+      setFormData({
+        title: "",
+        description: "",
+        location: "",
+        pricePerNight: "",
+        imageUrl: "",
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Creation failed");
     }
+  };
 
-    if (minPrice) {
-      filter.price = { ...filter.price, $gte: Number(minPrice) };
-    }
+  return (
+    <div>
+      <h1>Host Dashboard</h1>
 
-    if (maxPrice) {
-      filter.price = { ...filter.price, $lte: Number(maxPrice) };
-    }
-
-    const listings = await Listing.find(filter).populate('host', 'name email');
-    res.status(200).json(listings);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+      <h2>Create New Listing</h2>
+      <form onSubmit={handleCreate}>
+        <input
+          placeholder="Title"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          required
+        />
+        <textarea
+          placeholder="Description"
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+          required
+        />
+        <input
+          placeholder="Location"
+          value={formData.location}
+          onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Price per night"
+          value={formData.pricePerNight}
+          onChange={(e) =>
+            setFormData({ ...formData, pricePerNight: e.target.value })
+          }
+          required
+        />
+        <input
+          placeholder="Image URL"
+          value={formData.imageUrl}
+          onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+          required
+        />
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  );
 };
 
-exports.getListingById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const listing = await Listing.findById(id).populate('host', 'name email');
-    if (!listing) {
-      return res.status(404).json({ message: 'Listing not found' });
-    }
-    res.status(200).json(listing);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching listing', error: error.message });
-  }
-};
-
-exports.createListing = async (req, res) => {
-  const { title, location, price, description, images } = req.body;
-  const host = req.user._id;
-
-  try {
-    const newListing = new Listing({
-      title,
-      location,
-      price,
-      description,
-      images,
-      host,
-    });
-
-    await newListing.save();
-    res.status(201).json(newListing);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating listing', error: error.message });
-  }
-};
-
-exports.deleteListing = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const listing = await Listing.findById(id);
-    if (!listing) {
-      return res.status(404).json({ message: 'Listing not found' });
-    }
-
-    if (listing.host.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'You do not have permission to delete this listing' });
-    }
-
-    await Listing.findByIdAndDelete(id);
-    res.status(200).json({ message: 'Listing deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting listing', error: error.message });
-  }
-};
+export default Dashboard;
